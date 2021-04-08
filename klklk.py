@@ -1,14 +1,11 @@
 import random
-
 import pygame
-m=60
+m=50
 pygame.init()
 time=150
 screen=pygame.display.set_mode([500,500])
 b=0
-o=random.randint(0,12)*40
 x=40
-oo=random.randint(0,12)*40
 y=40
 score=0
 caesar=True
@@ -25,6 +22,8 @@ k4=0
 r1=0
 go=True
 body = pygame.image.load("IMG_0043.png")
+box=pygame.image.load("box.jpg")
+money=pygame.image.load("money.jpg")
 stop1=False
 stop2=False
 stop3=False
@@ -34,7 +33,7 @@ inter2=[0,0]
 inter3=[0,0]
 inter4=[0,0]
 ix=[]
-iy=[]
+
 push1=-1
 push2=-1
 push3=-1
@@ -60,6 +59,7 @@ def check():
             k1 = True
             inter1=ix[iii]
             push1=iii
+
         elif (y == ix[iii][1] - 40 and x == ix[iii][0]):
             inter2=ix[iii]
             k2 = True
@@ -75,71 +75,50 @@ def check():
 
     for inter in range(0,len(ix)):
         if push1>=0:
-            if ix[push1][1]==ix[inter][1]+40 and ix[push1][0]==ix[inter][0] or ix[push1][1]==o+40 and ix[push1][0]==oo:
+            if ix[push1][1]==ix[inter][1]+40 and ix[push1][0]==ix[inter][0]:
                 stop1=True
                 recode1=ix[push1][1]
                 recode11=ix[push1][0]
-                print("6")
+
         if push2>=0:
-            if ix[push2][1] == ix[inter][1] - 40 and ix[push2][0] == ix[inter][0]  or ix[push2][1] == o-40 and ix[push2][0] ==oo:
+            if ix[push2][1] == ix[inter][1] - 40 and ix[push2][0] == ix[inter][0]:
                 stop2 = True
                 recode2=ix[push2][1]
                 recode22=ix[push2][0]
         if push3 >= 0:
-            if ix[push3][0] == ix[inter][0] - 40 and ix[push3][1] == ix[inter][1]  or ix[push3][0] ==oo-40 and ix[push3][1] ==o:
+            if ix[push3][0] == ix[inter][0] - 40 and ix[push3][1] == ix[inter][1]:
                 stop3 = True
                 recode3=ix[push3][0]
                 recode33=ix[push3][1]
         if push4 >= 0:
-            if ix[push4][0] == ix[inter][0] + 40 and ix[push4][1] == ix[inter][1]  or ix[push4][0] == oo+40 and ix[push4][1] == o:
+            if ix[push4][0] == ix[inter][0] + 40 and ix[push4][1] == ix[inter][1]:
                 stop4 = True
                 recode4=ix[push4][0]
                 recode44=ix[push4][1]
-        if o==ix[inter][1]+40 and oo==ix[inter][0] and kl==1:
-            stop11 = True
-            recode1 = ix[inter][1] + 40
-            recode11=ix[inter][0]
-            print("1")
-        if o== ix[inter][1] - 40 and oo == ix[inter][0] and kl==2:
-            stop22 = True
-            recode2 =  ix[inter][1] - 40
-            recode22=ix[inter][0]
-            print("2")
-        if oo == ix[inter][0] - 40 and o == ix[inter][1] and kl==3:
-            stop33 = True
-            recode3 = ix[inter][0] - 40
-            recode33=ix[inter][1]
-            print("3")
-        if oo == ix[inter][0] + 40 and o == ix[inter][1] and kl==4:
-            stop44 = True
-            recode4 = ix[inter][0] + 40
-            recode44=ix[inter][1]
-            print("4")
-    if o !=recode1 or oo != recode11 :
-        stop11=False
-        print("error")
-    if o != recode2 or oo !=recode22 :
-        stop22=False
-        print("?")
-    if oo != recode3 or o != recode33:
-        stop33=False
-    if oo!=recode4 or o!=recode44 :
-        stop44=False
     if push1 >= 0:
-
         if recode1!=y-40 or recode11!=x :
             stop1=False
-            print("5")
+        else:
+            stop1 = True
+
     if push2 >= 0:
-        print(ix[push2])
         if recode2!=y+40 or recode22!=x:
             stop2=False
+        else:
+            stop2 = True
+
     if push3 >= 0:
         if recode3!=x+40 or recode33!=y:
             stop3=False
+        else:
+            stop3 = True
+            #print(3)
     if push4 >= 0:
         if recode4!=x-40  or recode44!=y:
             stop4=False
+        else:
+            stop4 = True
+            #print(4)
     if inter1[1]+40!=y or inter1[0]!=x:
         k1=False
 
@@ -153,9 +132,9 @@ def check():
 def replace():
     global o,oo
     kp=0
-    [oo,o]=[random.randint(0,12)*40,random.randint(0,12)*40]
-    for z in range(0, len(ix)):
-        if ix[z] ==[oo,o]  or [oo,o] == [240, 120] or [oo,o] == [x, y] :
+    ix[0]=[random.randint(0,12)*40,random.randint(0,12)*40]
+    for z in range(1, len(ix)):
+        if ix[z] ==ix[0]  or ix[0] == [240, 120] or ix[0] == [x, y] :
             kp = 1
     if kp == 1:
 
@@ -165,7 +144,7 @@ def makeinterrupt():
     d = [random.randint(0, 12) * 40, random.randint(0, 12) * 40]
     e = 0
     for z in range(0, len(ix)):
-        if ix[z] == d or d==[240,120] or d==[x,y] or d==[oo,o]:
+        if ix[z] == d or d==[240,120] or d==[x,y]:
             e = 1
     if e == 0:
         ix.append(d)
@@ -193,13 +172,14 @@ running=True
 while running:
     r1=0
     if hh == 0:
-        screen.fill((0, 0, 0))
+        screen.fill((255, 255, 255))
 
         for i in pygame.event.get():
             if i.type==pygame.QUIT:
                 running=False
-            #if i.type==pygame.MOUSEBUTTONDOWN:
             if i.type==pygame.KEYDOWN:
+
+                check()
                 if i.key==pygame.K_w:
                     body = pygame.image.load("IMG_0043.png")
                     direction=1
@@ -233,17 +213,6 @@ while running:
                     else:
                         y = y + 40
                 if i.key==pygame.K_q:
-                    if k0==True:
-                        o=o
-
-                    elif kl==1 and direction==1 and stop11==False:
-                        o=o-40
-                    elif kl==2 and direction==2 and stop22==False:
-                        o=o+40
-                    elif kl==3 and direction==3 and stop33==False:
-                        oo=oo+40
-                    elif kl==4 and direction==4 and stop44==False:
-                        oo=oo-40
                     if k1==True and direction==1 and stop1==False:
                         ix[push1][1]-=40
                     elif k2==True and direction==2 and stop2==False:
@@ -252,31 +221,27 @@ while running:
                         ix[push3][0]+=40
                     elif k4==True and direction==4 and stop4==False:
                         ix[push4][0]-=40
-        hole = drawCircle(20, (255, 50, 255), [240, 120])
+        hole = drawCircle(20, (0, 0, 0), [240, 120])
 
         bodysize=pygame.transform.scale(body,(40,40))
         bodyxy = bodysize.get_rect(center=(x,y))
         screen.blit(bodysize, bodyxy)
-        aaaa=drawCircle(20, (255, 0, 0), [oo, o])
-        for make in range(0,m):
 
-            drawCircle(20, (25, 100, 255), ix[make])
+        for make in range(0,m):
+            if make==0:
+                moneysize = pygame.transform.scale(money, (40, 40))
+                moneyxy = bodysize.get_rect(center=(ix[make]))
+                screen.blit(moneysize, moneyxy)
+            else:
+                boxsize = pygame.transform.scale(box, (40, 40))
+                boxxy = bodysize.get_rect(center=(ix[make]))
+                screen.blit(boxsize, boxxy)
+
         showMessage("time="+str(time), 30, (0, 255, 29), [20, 20])
         showMessage("score= " + str(score), 30, (255, 255, 0), [400, 20])
-        if (y == o + 40 and x == oo):
-            kl=1
-        elif (y == o - 40 and x == oo):
-            kl=2
-        elif (x == oo - 40 and y == o):
-            kl=3
-        elif (x == oo + 40 and y == o) :
-            kl=4
-        else:
-            kl=0
 
-        check()
 
-        if oo==240 and o==120:
+        if ix[0]==[240,120]:
             replace()
             score=score+1
         if time==0:
@@ -302,8 +267,19 @@ while running:
     if n == 0:
             k = 1
 
-
-
+    recode1 = -1
+    recode11 = -1
+    recode22 = -1
+    recode33 = -1
+    recode44 = -1
+    recode2 = -1
+    recode3 = -1
+    recode4 = -1
+    k1=False
+    k2 = False
+    k3 = False
+    k4 = False
+    kl=-1
     pygame.display.flip()
 
 pygame.quit()
